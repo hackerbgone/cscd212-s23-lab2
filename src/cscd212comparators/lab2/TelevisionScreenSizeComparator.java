@@ -8,6 +8,11 @@ public class TelevisionScreenSizeComparator implements Comparator<Television> {
 
     @Override //just compares based on screen size
     public int compare(Television t1, Television t2) {
-        return Integer.compare(t1.getScreenSize(), t2.getScreenSize());
+
+        if(t1 == null || t2 == null) { //null check for televesion 1 and 2
+            throw new IllegalArgumentException("null parameter in TelevisionScreenSizeComparator");
+        }
+
+        return t1.getScreenSize() - t2.getScreenSize();
     }
 }

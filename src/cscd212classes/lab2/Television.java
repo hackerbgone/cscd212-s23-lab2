@@ -13,17 +13,17 @@ public class Television implements Comparable<Television> {
     private final boolean smart;
 
 
-    public Television(String make, String model, boolean smart, int screenSize, int resolution) {
-        if(make == null || make.isEmpty() || model == null || model.isEmpty() || screenSize < 32 || resolution < 720){throw new java.lang.IllegalArgumentException();}
+    public Television(String make, String model, boolean smart, int screenSize, int resolution) {//EVC for Television
+        if(make == null || make.isEmpty() || model == null || model.isEmpty() || screenSize < 32 || resolution < 720){throw new java.lang.IllegalArgumentException("Invalid parameter in constructor");}
 
         this.make = make;
         this.model = model;
         this.resolution = resolution;
         this.screenSize = screenSize;
         this.smart = smart;
+
         if(resolution >= 2160){fourK=true;}
         else{fourK = false;}
-
 
     }
 
@@ -52,18 +52,19 @@ public class Television implements Comparable<Television> {
 
 
     @Override
-    public String toString() {
+    public String toString() {//formats the information of the television into a string for printing
 
         String information = this.getMake() + "-" + this.getModel() + ", " + getScreenSize() + " inch ";
 
         if(this.smart){information += "smart ";}
         information += "tv with ";
 
-        if(this.fourK){information += "4k resolution";}
-        else{information += this.getResolution() + "resolution";}
+        if(this.fourK){information += "4K resolution";}
+        else{information += this.getResolution() + " resolution";}
 
 
         return information;
+        //Had some issues with the testToString() check for tests, the issue at hand was with the capitalization "K" in 4K
     }
 
     @Override
@@ -80,10 +81,8 @@ public class Television implements Comparable<Television> {
         //check that all class variables are equal to the variables of o
         Television other = (Television) o;
 
-        //cannot check if the device is smart as a getter is not defined in the documentation
-        //however it can be checked to see if the other device is 4k
 
-        if(
+        if(//using formatting concept as shown in class
            this.make.equals(other.getMake()) &&
            this.model.equals(other.getModel()) &&
            this.resolution == other.getResolution() &&
@@ -102,16 +101,19 @@ public class Television implements Comparable<Television> {
 
     @Override
     public int compareTo(Television another) {
-        if(another == null){throw new java.lang.IllegalArgumentException();}
+        if(another == null){throw new java.lang.IllegalArgumentException("null parameter in the compareTo method");}
+
         if(this.make.compareTo(another.getMake()) == 0){
+
             if(this.model.compareTo(another.getModel()) == 0){
-                return Integer.compare(this.screenSize, another.getScreenSize());
+
+                return this.screenSize - another.getScreenSize();
             }
+
             return this.model.compareTo(another.getModel());
         }
+
         return this.make.compareTo(another.getMake());
-
-
     }
 }
 
