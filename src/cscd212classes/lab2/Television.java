@@ -28,15 +28,8 @@ public class Television implements Comparable<Television> {
     }
 
     public Television(String model, boolean smart, int screenSize, int resolution, String make) {
-        if(make == null || make.isEmpty() || model == null || model.isEmpty() || screenSize < 32 || resolution < 720){throw new java.lang.IllegalArgumentException();}
-
-        this.make = make;
-        this.model = model;
-        this.resolution = resolution;
-        this.screenSize = screenSize;
-        this.smart = smart;
-        if(resolution >= 2160){fourK=true;}
-        else{fourK = false;}
+        //Call's the other EVC upon formatting difference
+        this(make, model, smart, screenSize, resolution);
 
     }
 
@@ -58,7 +51,49 @@ public class Television implements Comparable<Television> {
     }
 
 
+    @Override
+    public String toString() {
 
+        String information = this.getMake() + "-" + this.getModel() + ", " + getScreenSize() + " inch ";
+
+        if(this.smart){information += "smart ";}
+        information += "tv with ";
+
+        if(this.fourK){information += "4k resolution";}
+        else{information += this.getResolution() + "resolution";}
+
+
+        return information;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        //check if obj to this
+        if (this == o) return true;
+        //check if obj is null
+        if (o == null) return false;
+
+        //check if obj is not an instance of Television
+        if (!(o instanceof Television)){return false;}
+
+        //check that all class variables are equal to the variables of o
+        Television other = (Television) o;
+
+        //cannot check if the device is smart as a getter is not defined in the documentation
+        //however it can be checked to see if the other device is 4k
+
+        if(
+           this.make.equals(other.getMake()) &&
+           this.model.equals(other.getModel()) &&
+           this.resolution == other.getResolution() &&
+           this.screenSize == other.getScreenSize() &&
+           this.smart == other.smart &&
+           this.fourK == other.fourK
+        ){return true;}
+
+        return false;
+    }
 
     @Override
     public int hashCode() {
